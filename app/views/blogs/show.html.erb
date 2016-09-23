@@ -17,3 +17,17 @@
 
 <%= link_to 'Edit', edit_blog_path(@blog) %> |
 <%= link_to 'Back', blogs_path %>
+
+<hr> 
+<p><strong>Add a Comment</strong></p>
+<%= form_for(@comment) do |f| %>
+  <%= f.label :author %>
+  <%= f.text_field :author %><br />
+
+  <%= f.label :content %>
+  <%= f.text_area :content %><br />
+
+  <%= f.hidden_field :blog_id, value: @blog.id %>
+
+  <%= f.submit %>
+<% end %>
