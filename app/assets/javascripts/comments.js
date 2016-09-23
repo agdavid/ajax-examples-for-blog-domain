@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+  var commentsHTML = "<ol>";
+
   $('#new_comment').on('submit', function(event) {
       event.preventDefault();
 
@@ -19,9 +21,10 @@ $(document).ready(function() {
       });
   });
 
+  $('#show_comments').on('click', getAllComments());
+
   function getAllComments() {
     var blogID = $('input[name="comment[blog_id]"]').val();
-    var commentsHTML = "<ol>";
     
     $.ajax({
       type: 'GET',
