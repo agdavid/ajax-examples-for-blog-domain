@@ -20,7 +20,7 @@
 
 <hr> 
 <p><strong>Add a Comment</strong></p>
-<%= form_for(@comment, :id => 'new_comment_ajax_form')  do |f| %>
+<%= form_for(@comment)  do |f| %>
   <%= f.label :author %>
   <%= f.text_field :author %><br />
 

@@ -4,7 +4,16 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.all
+    if params[:blog_id]
+      @blog = Blog.find(params[:blog_id])
+      @comments = @blog.comments
+      respond_to do |format|
+        format.html { render :index }
+        format.json { render json: @comments }
+      end
+    else  
+      @comments = Comment.all
+    end
   end
 
   # GET /comments/1
@@ -29,7 +38,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
-        format.json { render :show, status: :created, location: @comment }
+        format.json { render json: @comment }
       else
         format.html { render :new }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
