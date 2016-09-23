@@ -5,12 +5,18 @@ $(document).ready(function() {
 
       var blogID = $("input[name='comment[blog_id]']").val();
       var jsonURL = this.action + '.json';
+      var commentsHTML = "<ol>";
 
       $.ajax({
         type: 'POST',
         url: jsonURL,
         data: $(this).serialize(),
-        success: getAllComments()
+        success: function(data) {
+          alert("Comment successfully added!");
+          $('input[name="comment[author]"]').val('');
+          $('input[name="comment[content]"]').val('');
+          getAllComments()
+        }
       });
 
       function getAllComments() {
@@ -20,8 +26,10 @@ $(document).ready(function() {
           success: function(data) {
             for (var i = 0; i < data.length; i++) {
               var comment = new Comment(data[i].id, data[i].author, data[i].content, data[i].blog_id);
-              
+              comment.displayComment();             
             }
+            commentsHTML = commentsHTML.concat("</ol>");
+            $('#comments_area').html(commentsHTML);
           }
         });
       };
@@ -31,6 +39,10 @@ $(document).ready(function() {
         this.author = author,
         this.content = content,
         this.blog_id = blog_id
+      };
+
+      Comment.prototype.displayComment = function() {
+        commentsHTML = commentsHTML.concat("<li>" + this.author + " said: " + this.content + "</li>")
       };
 
   });
